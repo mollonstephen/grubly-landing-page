@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050505">
+  <meta name="description" content="Grubly is cooking something great. Local food. Fairer future.">
+  <title>Grubly — Coming Soon</title>
+
+  <style>
+    :root{
+      --bg:#050505;
+      --white:#f7f7f7;
+      --muted:#c2c2c2;
+      --orange:#ff7800;
+      --orange2:#ffb11a;
+      --green:#7ee000;
+      --teal:#18cfc3;
+    }
+
+    *{box-sizing:border-box}
+
+    html,body{
+      margin:0;
+      min-height:100%;
+      background:var(--bg);
+      color:var(--white);
+    }
+
+    body{
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at 50% 36%,rgba(255,120,0,.14),transparent 31rem),
+        linear-gradient(180deg,#020202 0%,#080808 58%,#020202 100%);
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.12;
+      background-image:radial-gradient(circle,rgba(255,120,0,.8) 0 1px,transparent 1.5px);
+      background-size:36px 36px;
+      mask-image:linear-gradient(to bottom,transparent 10%,black 36%,black 78%,transparent 98%);
+    }
+
+    .page{
+      width:min(1120px,calc(100% - 28px));
+      margin:auto;
+      padding:max(18px,env(safe-area-inset-top)) 0 max(18px,env(safe-area-inset-bottom));
+      text-align:center;
+    }
+
+    .logo{
+      display:block;
+      width:min(440px,80vw);
+      max-height:200px;
+      object-fit:contain;
+      margin:0 auto;
+      filter:drop-shadow(0 12px 28px rgba(255,120,0,.16));
+    }
+
+    .tagline{
+      margin-top:12px;
+      font-weight:800;
+      letter-spacing:.26em;
+      font-size:clamp(.72rem,1.8vw,1.06rem);
+      text-transform:uppercase;
+    }
+
+    .tagline b{color:var(--orange)}
+
+    h1{
+      margin:18px auto 10px;
+      max-width:900px;
+      font-size:clamp(2.15rem,6vw,5rem);
+      line-height:.98;
+      letter-spacing:-.055em;
+    }
+
+    h1 span{
+      color:var(--orange);
+      text-shadow:0 0 24px rgba(255,120,0,.23);
+    }
+
+    .intro{
+      max-width:760px;
+      margin:0 auto 22px;
+      color:var(--muted);
+      font-size:clamp(.9rem,1.8vw,1.16rem);
+      line-height:1.55;
+    }
+
+    .loader-panel{
+      width:min(920px,100%);
+      margin:0 auto 22px;
+      padding:clamp(24px,4vw,44px);
+      border:1px solid rgba(255,120,0,.38);
+      border-radius:30px;
+      background:
+        radial-gradient(circle at 50% 45%,rgba(255,120,0,.16),transparent 34%),
+        linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.01));
+      box-shadow:inset 0 0 55px rgba(255,120,0,.06),0 24px 70px rgba(0,0,0,.4);
+    }
+
+    .burger-loader{
+      width:clamp(190px,30vw,320px);
+      margin:0 auto 20px;
+      filter:drop-shadow(0 22px 30px rgba(0,0,0,.55));
+    }
+
+    .burger-svg{
+      display:block;
+      width:100%;
+      height:auto;
+      overflow:visible;
+    }
+
+    .fill-group{
+      animation:revealFill 4s ease-in-out infinite;
+      transform-origin:center bottom;
+    }
+
+    .wave{
+      animation:waveMove 2.2s ease-in-out infinite alternate;
+      transform-origin:center;
+    }
+
+    .steam{
+      opacity:0;
+      animation:steamRise 2.8s ease-out infinite;
+    }
+
+    .steam.s2{animation-delay:.8s}
+    .steam.s3{animation-delay:1.5s}
+
+    .loading-copy{
+      font-size:clamp(1rem,2.2vw,1.45rem);
+      font-weight:760;
+    }
+
+    .loading-copy b{color:var(--orange)}
+
+    .dots{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .dots i{
+      width:12px;
+      aspect-ratio:1;
+      border-radius:50%;
+      background:#333;
+      animation:dot 1.2s infinite ease-in-out;
+    }
+
+    .dots i:nth-child(2){animation-delay:.15s}
+    .dots i:nth-child(3){animation-delay:.3s}
+
+    .fair-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+      width:min(1040px,100%);
+      margin:0 auto 22px;
+    }
+
+    .fair-card{
+      border:1px solid rgba(255,120,0,.26);
+      border-radius:22px;
+      padding:20px 16px;
+      background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));
+      min-height:180px;
+      display:grid;
+      place-items:center;
+      align-content:center;
+      gap:9px;
+    }
+
+    .icon{
+      width:58px;
+      aspect-ratio:1;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      border:4px solid currentColor;
+      font-size:28px;
+      font-weight:900;
+    }
+
+    .icon svg{
+      width:30px;
+      height:30px;
+      display:block;
+      stroke:currentColor;
+      fill:none;
+      stroke-width:2.2;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+
+    .fair-card small{
+      font-size:.8rem;
+      font-weight:800;
+      color:white;
+    }
+
+    .fair-card strong{
+      font-size:1.05rem;
+      letter-spacing:.02em;
+    }
+
+    .fair-card p{
+      margin:5px 0 0;
+      color:var(--muted);
+      line-height:1.5;
+      font-size:.9rem;
+      max-width:230px;
+    }
+
+    .customer{color:var(--green)}
+    .restaurant{color:var(--orange)}
+    .driver{color:var(--teal)}
+
+    footer{
+      color:var(--muted);
+      font-size:clamp(.86rem,1.6vw,1.06rem);
+      padding:6px 0 2px;
+    }
+
+    footer .heart{
+      color:var(--orange);
+      font-size:1.5em;
+      margin-right:8px;
+      display:inline-block;
+      animation:heart 1.8s ease-in-out infinite;
+    }
+
+    footer strong{color:var(--orange)}
+
+    @keyframes revealFill{
+      0%{transform:translateY(92%)}
+      18%{transform:translateY(72%)}
+      42%{transform:translateY(46%)}
+      68%{transform:translateY(20%)}
+      84%,100%{transform:translateY(0)}
+    }
+
+    @keyframes waveMove{
+      from{transform:translateX(-8px)}
+      to{transform:translateX(8px)}
+    }
+
+    @keyframes steamRise{
+      0%{opacity:0;transform:translateY(18px)}
+      30%{opacity:.55}
+      100%{opacity:0;transform:translateY(-42px)}
+    }
+
+    @keyframes dot{
+      0%,80%,100%{background:#343434;transform:scale(.82)}
+      40%{background:var(--orange);transform:scale(1.12);box-shadow:0 0 14px rgba(255,120,0,.65)}
+    }
+
+    @keyframes heart{
+      0%,100%{transform:scale(1)}
+      50%{transform:scale(1.12)}
+    }
+
+    @media(max-width:760px){
+      .page{
+        width:min(100% - 14px,560px);
+        padding-top:max(10px,env(safe-area-inset-top));
+      }
+
+      .logo{
+        width:min(330px,84vw);
+        max-height:150px;
+      }
+
+      .tagline{
+        margin-top:10px;
+        font-size:.66rem;
+        letter-spacing:.16em;
+      }
+
+      h1{
+        font-size:clamp(2rem,10vw,3.1rem);
+        margin-top:12px;
+      }
+
+      .intro{
+        font-size:.82rem;
+        line-height:1.42;
+        max-width:95%;
+        margin-bottom:12px;
+      }
+
+      .loader-panel{
+        padding:24px 12px;
+        border-radius:22px;
+      }
+
+      .burger-loader{
+        width:clamp(190px,60vw,260px);
+      }
+
+      .fair-grid{
+        grid-template-columns:1fr;
+        gap:10px;
+      }
+
+      .fair-card{
+        min-height:0;
+        padding:15px 14px;
+        border-radius:18px;
+        grid-template-columns:auto 1fr;
+        grid-template-areas:"icon title" "icon copy";
+        text-align:left;
+        place-items:center start;
+        column-gap:14px;
+      }
+
+      .fair-card .icon{
+        grid-area:icon;
+        width:50px;
+        font-size:23px;
+      }
+
+      .fair-card .title{grid-area:title}
+      .fair-card p{
+        grid-area:copy;
+        margin:0;
+        max-width:none;
+        font-size:.84rem;
+      }
+
+      footer{
+        padding-bottom:max(8px,env(safe-area-inset-bottom));
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{
+        animation-duration:.001ms!important;
+        animation-iteration-count:1!important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <header>
+      <img src="grubly-logo.png" class="logo" alt="Grubly">
+      <div class="tagline">Local food. <b>Fairer future.</b></div>
+    </header>
+
+    <section>
+      <h1>We’re cooking<br>something <span>great.</span></h1>
+      <p class="intro">
+        A new kind of food delivery platform built for fairer prices,
+        faster service and happier local communities.
+      </p>
+    </section>
+
+    <section class="loader-panel" aria-label="Grubly loading animation">
+      <div class="burger-loader" aria-hidden="true">
+        <svg class="burger-svg" viewBox="0 0 360 300" role="img">
+          <defs>
+            <clipPath id="burgerClip">
+              <path d="M58 96C68 43 113 18 180 18S292 43 302 96Z"/>
+              <rect x="42" y="112" width="276" height="28" rx="14"/>
+              <rect x="54" y="148" width="252" height="24" rx="12"/>
+              <path d="M38 178H322L300 205H60Z"/>
+              <rect x="46" y="211" width="268" height="31" rx="15"/>
+              <path d="M64 249H296C289 276 249 288 180 288S71 276 64 249Z"/>
+            </clipPath>
+            <linearGradient id="burgerFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ffbf2e"/>
+              <stop offset="55%" stop-color="#ff7800"/>
+              <stop offset="100%" stop-color="#d84b00"/>
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <g clip-path="url(#burgerClip)">
+            <rect x="0" y="0" width="360" height="300" fill="#161616"/>
+            <g class="fill-group">
+              <rect x="0" y="0" width="360" height="300" fill="url(#burgerFill)"/>
+              <path class="wave" d="M-20 30 C40 5 95 55 155 30 S275 5 380 30 V70 H-20Z"
+                    fill="#ffd15a" opacity=".85"/>
+            </g>
+          </g>
+
+          <g fill="none" stroke="#f8f8f8" stroke-width="5" stroke-linejoin="round" filter="url(#glow)">
+            <path d="M58 96C68 43 113 18 180 18S292 43 302 96Z"/>
+            <rect x="42" y="112" width="276" height="28" rx="14"/>
+            <rect x="54" y="148" width="252" height="24" rx="12"/>
+            <path d="M38 178H322L300 205H60Z"/>
+            <rect x="46" y="211" width="268" height="31" rx="15"/>
+            <path d="M64 249H296C289 276 249 288 180 288S71 276 64 249Z"/>
+          </g>
+
+          <g fill="#fff0c2">
+            <ellipse cx="118" cy="54" rx="5" ry="2.5"/>
+            <ellipse cx="154" cy="41" rx="5" ry="2.5"/>
+            <ellipse cx="196" cy="43" rx="5" ry="2.5"/>
+            <ellipse cx="238" cy="57" rx="5" ry="2.5"/>
+            <ellipse cx="274" cy="70" rx="5" ry="2.5"/>
+          </g>
+
+          <g fill="none" stroke="rgba(255,255,255,.48)" stroke-width="6" stroke-linecap="round">
+            <path class="steam" d="M135 5 C120 -12 150 -26 135 -44"/>
+            <path class="steam s2" d="M180 2 C165 -15 195 -29 180 -47"/>
+            <path class="steam s3" d="M225 5 C210 -12 240 -26 225 -44"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="loading-copy">
+        Loading something <b>delicious...</b>
+        <div class="dots"><i></i><i></i><i></i></div>
+      </div>
+    </section>
+
+    <section class="fair-grid">
+      <article class="fair-card customer">
+        <div class="icon">☺</div>
+        <div class="title"><small>FAIR FOR</small><br><strong>CUSTOMERS</strong></div>
+        <p>Better prices, more choice and top-notch service.</p>
+      </article>
+
+      <article class="fair-card restaurant">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M4 10h16"/>
+            <path d="M5 10v9h14v-9"/>
+            <path d="M4 10l1.2-5h13.6L20 10"/>
+            <path d="M7 5v5"/>
+            <path d="M12 5v5"/>
+            <path d="M17 5v5"/>
+            <path d="M9 19v-5h6v5"/>
+          </svg>
+        </div>
+        <div class="title"><small>FAIR FOR</small><br><strong>RESTAURANTS</strong></div>
+        <p>Lower commissions and real support for local businesses.</p>
+      </article>
+
+      <article class="fair-card driver">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="7.5"/>
+            <circle cx="12" cy="12" r="2"/>
+            <path d="M12 10V5"/>
+            <path d="M10.4 13.2 6.2 16"/>
+            <path d="m13.6 13.2 4.2 2.8"/>
+          </svg>
+        </div>
+        <div class="title"><small>FAIR FOR</small><br><strong>DRIVERS</strong></div>
+        <p>Better pay, flexible hours and respect on the road.</p>
+      </article>
+    </section>
+
+    <footer>
+      <span class="heart">♡</span>
+      Better for you. Better for local.
+      <strong>That’s the Grubly way.</strong>
+    </footer>
+  </main>
+</body>
+</html>
